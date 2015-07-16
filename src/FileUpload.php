@@ -44,7 +44,7 @@ class FileUpload
             mkdir($tmpPath, 0777, true);
         }
         $tmpFile = $tmpPath . DIRECTORY_SEPARATOR . $fileName;
-        file_put_contents($tmpFile, $_FILES['file']['tmp_name'], FILE_APPEND);
+        file_put_contents($tmpFile, file_get_contents($_FILES['file']['tmp_name']), FILE_APPEND);
         if($isComplete)
         {
             $storeName = md5_file($tmpFile);
