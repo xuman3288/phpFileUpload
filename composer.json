@@ -1,5 +1,5 @@
 {
-    "name": "fly/FileUpload",
+    "name": "fly/file-upload",
     "description": "extra for php",
     "license": "MIT",
     "autoload" : {
