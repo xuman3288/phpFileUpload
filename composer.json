@@ -1,0 +1,10 @@
+{
+    "name": "fly/FileUpload",
+    "description": "extra for php",
+    "license": "MIT",
+    "autoload" : {
+        "psr-4" : {
+            "FileUpload\\" : "src"
+        }
+    }
+}
