@@ -42,11 +42,13 @@ var FileUpload = {
     },
 
     splitSize: 1024 * 2000,
+    stop: false,
     //分片发送文件
-    sendBySplit: function (file, url) {
+    sendBySplit: function (file, url, onSuccess) {
         var me = this, size = file.size, name = file.name, type = file.type || "";
         var fileId = (file.lastModifiedDate + "").replace(/\W/g, '') + size + type.replace(/\W/g, '');
         var start = localStorage[fileId] * 1 || 0;
+        me.stop = false;
         var funcSendPiece = function () {
             var data = {
                 total: size,
@@ -69,6 +71,7 @@ var FileUpload = {
                         if (start + me.splitSize >= size) {
                             //over
                             localStorage.removeItem(fileId)
+                            onSuccess && onSuccess(ret.ret);
                         } else {
                             start = start + me.splitSize;
                             localStorage.setItem(fileId, start + "");

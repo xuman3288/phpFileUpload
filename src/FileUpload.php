@@ -32,18 +32,22 @@ class FileUpload
 
     static function saveSplitFileTo($path, $userID, $fileName, $ext, $isComplete)
     {
+        $tmpPath = self::$tmp . DIRECTORY_SEPARATOR . $userID;
+        $tmpFile = $tmpPath . DIRECTORY_SEPARATOR . $fileName;
         if (!$_FILES
             || $_FILES['file']['error'] > 0
             || !is_uploaded_file($_FILES['file']['tmp_name'])
         ){
+            if(is_file($tmpFile)) {
+                unlink($tmpFile);
+            }
             return 0;
         }
-        $tmpPath = self::$tmp . DIRECTORY_SEPARATOR . $userID;
         if(!is_dir($tmpPath))
         {
             mkdir($tmpPath, 0777, true);
         }
-        $tmpFile = $tmpPath . DIRECTORY_SEPARATOR . $fileName;
+
         file_put_contents($tmpFile, file_get_contents($_FILES['file']['tmp_name']), FILE_APPEND);
         if($isComplete)
         {
@@ -56,6 +60,9 @@ class FileUpload
     }
     static function piecesSaveTo($path, $userID, $post)
     {
+        if(!is_dir($path)) {
+            mkdir($path, 0777, true);
+        }
         $forRef = explode(".", $post['fileName']);
         $ext = array_pop($forRef);
         $fileID = $post['fileId'];
