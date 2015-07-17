@@ -43,7 +43,7 @@ var FileUpload = {
 
     splitSize: 1024 * 2000,
     //分片发送文件
-    splitSend: function (file) {
+    sendBySplit: function (file, url) {
         var me = this, size = file.size, name = file.name, type = file.type || "";
         var fileId = (file.lastModifiedDate + "").replace(/\W/g, '') + size + type.replace(/\W/g, '');
         var start = localStorage[fileId] * 1 || 0;
@@ -57,7 +57,7 @@ var FileUpload = {
             };
 
             me.sendPiece(
-                '',
+                url,
                 file.slice(start, start + me.splitSize),
                 {
                     start : start,
